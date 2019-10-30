@@ -1,24 +1,29 @@
 package pl.uek.krakow.pp5.models;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
+import pl.uek.krakow.pp5.logger.LogType;
+import pl.uek.krakow.pp5.logger.TranslationLogger;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 
 @Builder
 @Getter
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class CreditCard {
 	@NonNull
 	private final String cardNumber;
 	@NonNull
 	private BigDecimal limit;
 	private BigDecimal money;
+	private TranslationLogger translationLogger = new TranslationLogger();
 
 	public void setLimit(BigDecimal amount) {
 		if (amount.compareTo(BigDecimal.valueOf(100)) < 0) {
 			throw new IllegalStateException("Cannot set limit below 100 PLN");
 		}
+		translationLogger.log(LogType.CHANGE_LIMIT, limit, amount);
 		limit = amount;
 	}
 
@@ -34,5 +39,6 @@ public class CreditCard {
 			throw new IllegalStateException("Cannot withdraw above limit amount");
 		}
 		setMoney(money.subtract(withdrawAmount));
+		translationLogger.log(LogType.WITHDRAW, money, money.add(withdrawAmount));
 	}
 }

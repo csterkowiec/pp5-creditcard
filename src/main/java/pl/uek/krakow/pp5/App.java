@@ -9,9 +9,10 @@ public class App {
 		CreditCard card = CreditCard.builder()
 				.cardNumber("1234")
 				.limit(BigDecimal.valueOf(100))
-				.money(BigDecimal.valueOf(100))
+				.balance(BigDecimal.valueOf(100))
 				.build();
 		card.setLimit(BigDecimal.valueOf(200));
-		System.out.println();
+		card.withdraw(BigDecimal.valueOf(50));
+		System.out.println(card.getTranslationLogger().getLogs());
 	}
 }

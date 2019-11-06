@@ -15,7 +15,7 @@ public class CreditCardTest {
 	private static final String CARD_NUMBER = "1234-1234-1234-1234";
 
 	@Test
-	public void LimitChangeAboveLimitPasses() {
+	public void limitChangeAboveLimitPasses() {
 		CreditCard card = CreditCard.builder()
 				.cardNumber(CARD_NUMBER)
 				.limit(LIMIT)
@@ -25,32 +25,34 @@ public class CreditCardTest {
 	}
 
 	@Test
-	public void WithdrawBelowLimitPasses() {
+	public void withdrawBelowLimitPasses() {
 		CreditCard card = CreditCard.builder()
 				.cardNumber(CARD_NUMBER)
 				.limit(LIMIT)
-				.money(MONEY)
+				.balance(MONEY)
 				.build();
 		card.withdraw(WITHDRAW_BELOW_LIMIT);
 	}
 
 	@Test(expected = IllegalStateException.class)
-	public void LimitChangeBelowLimitThrows() {
+	public void limitChangeBelowLimitThrows() {
 		CreditCard.builder()
 				.cardNumber(CARD_NUMBER)
 				.limit(LIMIT)
-				.money(MONEY)
+				.balance(MONEY)
 				.build()
 				.setLimit(INVALID_LIMIT);
+
 	}
 
 	@Test(expected = IllegalStateException.class)
-	public void WithdrawBelowMoneyThrows() {
+	public void withdrawAboveBalanceThrows() {
 		CreditCard.builder()
 				.cardNumber(CARD_NUMBER)
 				.limit(LIMIT)
-				.money(BigDecimal.ZERO)
+				.balance(BigDecimal.ZERO)
 				.build()
 				.withdraw(BigDecimal.TEN);
 	}
+
 }

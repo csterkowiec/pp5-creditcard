@@ -4,7 +4,6 @@ import lombok.*;
 import pl.uek.krakow.pp5.logger.LogType;
 import pl.uek.krakow.pp5.logger.TranslationLogger;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
 
 @Builder
@@ -16,7 +15,8 @@ public class CreditCard {
 	private final String cardNumber;
 	@NonNull
 	private BigDecimal limit;
-	private BigDecimal money;
+	private BigDecimal balance;
+	@Builder.Default
 	private TranslationLogger translationLogger = new TranslationLogger();
 
 	public void setLimit(BigDecimal amount) {
@@ -27,18 +27,18 @@ public class CreditCard {
 		limit = amount;
 	}
 
-	public void setMoney(BigDecimal amount) {
+	public void setBalance(BigDecimal amount) {
 		if (amount.compareTo(BigDecimal.ZERO) < 0) {
 			throw new IllegalStateException("Cannot set money below zero");
 		}
-		money = money.subtract(amount);
+		balance = balance.subtract(amount);
 	}
 
 	public void withdraw(BigDecimal withdrawAmount) {
 		if (withdrawAmount.compareTo(limit) > 0) {
 			throw new IllegalStateException("Cannot withdraw above limit amount");
 		}
-		setMoney(money.subtract(withdrawAmount));
-		translationLogger.log(LogType.WITHDRAW, money, money.add(withdrawAmount));
+		setBalance(balance.subtract(withdrawAmount));
+		translationLogger.log(LogType.WITHDRAW, balance, balance.add(withdrawAmount));
 	}
 }

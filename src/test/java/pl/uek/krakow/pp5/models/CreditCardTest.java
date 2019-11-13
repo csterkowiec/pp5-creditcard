@@ -12,7 +12,7 @@ public class CreditCardTest {
 	private static final BigDecimal WITHDRAW_BELOW_LIMIT = BigDecimal.valueOf(1000);
 	private static final BigDecimal MONEY = BigDecimal.valueOf(1500);
 	private static final BigDecimal INVALID_LIMIT = BigDecimal.TEN;
-	private static final String CARD_NUMBER = "437285962348ryuebfjksad";
+	private static final String CARD_NUMBER = "1234-1234-1234-1234";
 
 	@Test
 	public void limitChangeAboveLimitPasses() {

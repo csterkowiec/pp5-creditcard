@@ -31,7 +31,7 @@ public class CreditCard {
 		if (amount.compareTo(BigDecimal.ZERO) < 0) {
 			throw new IllegalStateException("Cannot set money below zero");
 		}
-		balance = balance.subtract(amount);
+		balance = amount;
 	}
 
 	public void withdraw(BigDecimal withdrawAmount) {
@@ -39,6 +39,10 @@ public class CreditCard {
 			throw new IllegalStateException("Cannot withdraw above limit amount");
 		}
 		setBalance(balance.subtract(withdrawAmount));
-		translationLogger.log(LogType.WITHDRAW, balance, balance.add(withdrawAmount));
+		translationLogger.log(LogType.WITHDRAW, balance, balance.subtract(withdrawAmount));
+	}
+	public void deposit(BigDecimal amount){
+		setBalance(balance.add(amount));
+		translationLogger.log(LogType.DEPOSIT, balance, balance.add(amount));
 	}
 }

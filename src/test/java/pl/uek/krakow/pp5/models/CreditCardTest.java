@@ -12,7 +12,7 @@ public class CreditCardTest {
 	private static final BigDecimal WITHDRAW_BELOW_LIMIT = BigDecimal.valueOf(1000);
 	private static final BigDecimal MONEY = BigDecimal.valueOf(1500);
 	private static final BigDecimal INVALID_LIMIT = BigDecimal.TEN;
-	private static final String CARD_NUMBER = "1234-4321-1234";
+	private static final String CARD_NUMBER = "1234-3321-1234";
 
 	@Test
 	public void limitChangeAboveLimitPasses() {
@@ -54,5 +54,14 @@ public class CreditCardTest {
 				.build()
 				.withdraw(BigDecimal.TEN);
 	}
-
+	@Test
+	public void depositPasses(){
+		CreditCard card = CreditCard.builder()
+				.cardNumber(CARD_NUMBER)
+				.limit(LIMIT)
+				.balance(BigDecimal.ZERO)
+				.build();
+				card.deposit(BigDecimal.valueOf(400));
+		Assert.assertEquals(card.getBalance(), BigDecimal.valueOf(400) );
+	}
 }
